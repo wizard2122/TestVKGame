@@ -80,14 +80,7 @@ h6 {
 	align-items: center;
 }
 
-.wrapper {
-    position: relative;
-    display: inline-block; /* shrink wrap */
-    height: 90vh; /* arbitrary input height; adjust this */
-  }
-.wrapper > img {
-    height: 56.25%; /* make the img's width 100% of the height of .container */
-  }
+
 .unityWrapper {
     /* match size of .container, without influencing it */
     position: absolute;
