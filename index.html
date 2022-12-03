@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="style.css">
+    <title>Quiz</title>
+	
+	<!-- Yandex Games SDK -->
+	<script src="https://yandex.ru/games/sdk/v2"></script>
+	<!-- Запуск рекламы при старте игры -->
+	<script type="text/javascript">
+		var player;
+		var sdk;
+		var payments = null;
+
+
+		YaGames.init({
+			adv: {
+				onAdvClose: wasShown => {
+					console.info('adv closed!');
+				}
+			}
+		})
+		.then(ysdk => {
+			sdk = ysdk;
+			sdk.adv.showFullscreenAdv({ callbacks: {} });
+		});
+	</script>
+
+	<script>
+		function showFullscrenAd() {
+			sdk.adv.showFullscreenAdv({
+				callbacks: {
+					onOpen: () => {
+						console.log("------------- Open --------------");
+						 window.unityInstance.SendMessage('YandexSDK', 'OnInterstitialBeginShow');
+					},
+					onClose: function (wasShown) {
+						console.log("------------- Close --------------");
+						 window.unityInstance.SendMessage('YandexSDK', 'OnInterstitialShown');
+					},
+					onError: function (error) {
+						 window.unityInstance.SendMessage('YandexSDK', 'OnInterstitialFailed', error);
+						console.log("------------- Error --------------");
+					}
+				}
+			})
+		}
+	</script>
+
+  </head>
+
+  <body class="page">
+	<div class="wrapper">
+		<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+		<div class="unityWrapper">
+			<canvas id="unity-canvas" width=100% height=100% style="width: 100%; height: 100%; background: #231F20"></canvas>
+			<script src="Build/MainGame.loader.js"></script>
+			<script> 
+			  createUnityInstance(document.querySelector("#unity-canvas"), {
+				dataUrl: "Build/MainGame.data.unityweb",
+				frameworkUrl: "Build/MainGame.framework.js.unityweb",
+				codeUrl: "Build/MainGame.wasm.unityweb",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "DefaultCompany",
+				productName: "QuestionCube",
+				productVersion: "0.0.0.1",
+				// matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+				// devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+			  });
+			</script>
+		</div>
+	</div>
+
+
+
+
+  </body>
+  
+</html>
