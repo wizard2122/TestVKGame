@@ -25,17 +25,19 @@
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       });
-    </script>
 
-    <!-- Инициализация -->
-    <script>
       vkBridge.send("VKWebAppInit", {}).then(()=> {
-            showFullscrenAd();
+            // Показать рекламу
+              vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'interstitial' })
+              .then((data) => {
+                if (data.result)
+                  console.log("------------- Open --------------");
+                else
+                  console.log('Ошибка при показе');
+              })
+        .catch((error) => { console.log(error); /* Ошибка */ });
           });
-    </script>
 
-    <!-- Обработка рекламы в нужное время -->
-    <script>
       function showFullscrenAd() {
               // Показать рекламу
               vkBridge.send('VKWebAppShowNativeAds', { ad_format: 'interstitial' })
